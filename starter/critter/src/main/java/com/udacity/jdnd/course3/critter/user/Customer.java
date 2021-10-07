@@ -1,12 +1,10 @@
 package com.udacity.jdnd.course3.critter.user;
 
 import com.udacity.jdnd.course3.critter.pet.PetType;
+import com.udacity.jdnd.course3.critter.schedule.Schedule;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -23,7 +21,7 @@ public class Customer {
 
     private String notes;
 
-    @OneToMany(targetEntity = Pet.class, mappedBy = "petId")
+    @OneToMany(targetEntity = Pet.class, mappedBy = "customer")
     private List<Pet> pet;
 }
 

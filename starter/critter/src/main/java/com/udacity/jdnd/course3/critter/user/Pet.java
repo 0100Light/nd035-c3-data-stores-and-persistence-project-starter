@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Pet {
     @Id
     @GeneratedValue
-    private long petId;
+    private long id;
 
     @ManyToOne(targetEntity = Customer.class)
     private Customer customer;
