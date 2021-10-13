@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -71,13 +72,31 @@ public class UserService {
         if (optionalEmployee.isPresent()){
             Employee y = optionalEmployee.get();
             y.setDaysAvailable(daysAvailable);
+            employeeRepository.save(y);
         } else {
             throw new ObjectNotFoundException(employeeId, "Employee");
         }
-
     }
 
     public Optional<Customer> getCustomerById(Long id){
         return customerRepository.findById(id);
     }
+
+    // TODO: implement
+//    public List<EmployeeDTO> findEmployeeByRequest(EmployeeRequestDTO requestDTO){
+//        List<Employee> ees = employeeRepository.findAllBySkillsContainingAndDaysAvailableContaining(requestDTO.getSkills(), requestDTO.getDate().getDayOfWeek());
+//        return userMapper.toEmployeeDtoList(ees);
+//    }
+
+    public List<Employee> getAvailableEmployees(Set<EmployeeSkill> skills, DayOfWeek dayOfWeek) {
+        List<Employee> employees = employeeRepository.findAllByDaysAvailableContaining(dayOfWeek);
+        List<Employee> availableEmployees = new ArrayList<>();
+        for(Employee e : employees){
+            if(e.getSkills().containsAll(skills)) {
+                availableEmployees.add(e);
+            }
+        }
+        return availableEmployees;
+    }
+
 }

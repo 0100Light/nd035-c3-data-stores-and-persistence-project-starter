@@ -1,7 +1,10 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import org.springframework.data.jpa.repository.Query;
+
 import javax.persistence.*;
 import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,6 +21,10 @@ public class Employee {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<DayOfWeek> daysAvailable;
+
+
+
+
 
     public long getId() {
         return id;

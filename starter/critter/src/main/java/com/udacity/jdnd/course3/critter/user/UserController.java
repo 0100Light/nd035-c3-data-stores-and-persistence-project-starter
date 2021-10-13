@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,10 +21,14 @@ public class UserController {
 
     private EntityManager entityManager;
     private UserService userService;
+    private UserMapper userMapper;
 
-    public UserController(EntityManager entityManager, UserService userService) {
+    public UserController(EntityManager entityManager,
+                          UserService userService,
+                          UserMapper userMapper) {
         this.entityManager = entityManager;
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @Transactional
@@ -59,7 +64,8 @@ public class UserController {
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        List<Employee> ees =  userService.getAvailableEmployees(employeeDTO.getSkills(), employeeDTO.getDate().getDayOfWeek());
+        return userMapper.toEmployeeDtoList(ees);
     }
 
 }

@@ -178,7 +178,7 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindEmployeesByServiceAndTime() {
+    public void testfindemployeesbyserviceandtime() {
         EmployeeDTO emp1 = createEmployeeDTO();
         EmployeeDTO emp2 = createEmployeeDTO();
         EmployeeDTO emp3 = createEmployeeDTO();

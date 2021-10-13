@@ -17,7 +17,6 @@ public abstract class PetMapper {
     public PetMapper() {
     }
 
-    // TODO: fix
     public PetDTO toPetDto(Pet p){
         PetDTO dto = new PetDTO();
         dto.setId(p.getId());

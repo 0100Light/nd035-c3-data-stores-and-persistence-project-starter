@@ -2,8 +2,6 @@ package com.udacity.jdnd.course3.critter.user;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetRepository;
-import com.udacity.jdnd.course3.critter.pet.PetService;
-import org.checkerframework.checker.units.qual.A;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -26,6 +24,9 @@ public abstract class UserMapper {
 
     @Mapping(source = "pet", target = "petIds", qualifiedByName = "petsToPetIds")
     abstract CustomerDTO toCustomerDTO(Customer c);
+
+    abstract List<EmployeeDTO> toEmployeeDtoList(List<Employee> employeeList);
+    abstract List<Employee> toEmployees(List<EmployeeDTO> employeeDTOList);
 
 
 //    @Named("petIdsToPets")

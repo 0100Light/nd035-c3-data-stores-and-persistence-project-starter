@@ -11,14 +11,26 @@ import java.util.List;
 @RequestMapping("/schedule")
 public class ScheduleController {
 
+    private ScheduleService scheduleService;
+    private ScheduleMapper scheduleMapper;
+
+    public ScheduleController(ScheduleService scheduleService,
+                              ScheduleMapper scheduleMapper) {
+        this.scheduleService = scheduleService;
+        this.scheduleMapper = scheduleMapper;
+    }
+
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
-        throw new UnsupportedOperationException();
+        Schedule s = scheduleMapper.toSchedule(scheduleDTO);
+        Schedule saved = scheduleService.saveSchedule(s);
+        return scheduleMapper.scheduleDTO(saved);
     }
 
     @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
-        throw new UnsupportedOperationException();
+        List<Schedule> schedules = scheduleService.getAllSchedules();
+        return scheduleMapper.toScheduleDTOS(schedules);
     }
 
     @GetMapping("/pet/{petId}")
