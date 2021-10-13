@@ -1,11 +1,9 @@
 package com.udacity.jdnd.course3.critter.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Set;
@@ -21,42 +19,42 @@ import java.util.Set;
 public class UserController {
 
     private EntityManager entityManager;
-    private CustomerService customerService;
+    private UserService userService;
 
-    public UserController(EntityManager entityManager, CustomerService customerService) {
+    public UserController(EntityManager entityManager, UserService userService) {
         this.entityManager = entityManager;
-        this.customerService = customerService;
+        this.userService = userService;
     }
 
     @Transactional
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        return customerService.saveCustomer(customerDTO);
+        return userService.saveCustomer(customerDTO);
     }
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
-        return customerService.getCustomers();
+        return userService.getCustomers();
     }
 
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        throw new UnsupportedOperationException();
+        return userService.getCustomerByPet(petId);
     }
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        return userService.saveEmployee(employeeDTO);
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        return userService.getEmployeeById(employeeId);
     }
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        userService.setEmployeeAvailability(employeeId, daysAvailable);
     }
 
     @GetMapping("/employee/availability")

@@ -1,6 +1,6 @@
-package com.udacity.jdnd.course3.critter.user;
+package com.udacity.jdnd.course3.critter.pet;
 
-import com.udacity.jdnd.course3.critter.pet.PetType;
+import com.udacity.jdnd.course3.critter.user.Customer;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ public class Pet {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

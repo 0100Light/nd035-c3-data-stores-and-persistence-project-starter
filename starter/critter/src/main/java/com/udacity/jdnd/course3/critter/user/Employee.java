@@ -1,17 +1,22 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Set;
 
-/**
- * Represents the form that employee request and response data takes. Does not map
- * to the database directly.
- */
-public class EmployeeDTO {
+@Entity
+public class Employee {
+
+    @Id
+    @GeneratedValue
     private long id;
+
     private String name;
 
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<EmployeeSkill> skills;
+
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<DayOfWeek> daysAvailable;
 
     public long getId() {

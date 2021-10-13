@@ -2,7 +2,7 @@ package com.udacity.jdnd.course3.critter.schedule;
 
 import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
-import com.udacity.jdnd.course3.critter.user.Pet;
+import com.udacity.jdnd.course3.critter.pet.Pet;
 import lombok.Data;
 
 import javax.persistence.*;

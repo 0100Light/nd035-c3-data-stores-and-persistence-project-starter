@@ -1,9 +1,8 @@
 package com.udacity.jdnd.course3.critter.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.udacity.jdnd.course3.critter.pet.Pet;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -17,7 +16,7 @@ public class Customer {
     private String phoneNumber;
     private String notes;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Pet> pet;
 
     public long getId() {

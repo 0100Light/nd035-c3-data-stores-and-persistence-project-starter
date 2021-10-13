@@ -2,9 +2,7 @@ package com.udacity.jdnd.course3.critter;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.udacity.jdnd.course3.critter.pet.PetController;
-import com.udacity.jdnd.course3.critter.pet.PetDTO;
-import com.udacity.jdnd.course3.critter.pet.PetType;
+import com.udacity.jdnd.course3.critter.pet.*;
 import com.udacity.jdnd.course3.critter.schedule.ScheduleController;
 import com.udacity.jdnd.course3.critter.schedule.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.user.*;
@@ -18,6 +16,7 @@ import org.testng.annotations.Test;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -37,14 +36,20 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
     @Autowired
     private UserController userController;
 
-//    @Autowired
-//    CustomerService customerService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private PetController petController;
 
     @Autowired
     private ScheduleController scheduleController;
+
+    @Autowired
+    private PetMapper petMapper;
+
+    @Autowired
+    private PetService petService;
 
     @Test
     public void testCreateCustomer(){
@@ -64,6 +69,42 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(employeeDTO.getSkills(), newEmployee.getSkills());
         Assert.assertEquals(newEmployee.getId(), retrievedEmployee.getId());
         Assert.assertTrue(retrievedEmployee.getId() > 0);
+    }
+
+    @Test
+    public void canCreateCustomer(){
+        CustomerDTO customerDTO = createCustomerDTO();
+        CustomerDTO saved = userService.saveCustomer(customerDTO);
+        Assert.assertEquals(saved.getName(), customerDTO.getName());
+        Assert.assertTrue(saved.getId() > 0);
+    }
+
+    @Test
+    public void canCreatePet(){
+        PetDTO petDTO = createPetDTO();
+        PetDTO saved = petController.savePet(petDTO);
+        Assert.assertEquals(saved.getName(), petDTO.getName());
+        Assert.assertTrue(saved.getId() > 0);
+    }
+
+    @Test
+    public void can_convert_petDTO_to_pet(){
+        PetDTO petDTO = createPetDTO();
+        Pet p = petMapper.toPet(petDTO);
+        Pet saved = petService.savePet(p);
+
+        Assert.assertNotEquals(saved.getId(), null);
+        Assert.assertNotEquals(saved.getId(), 0L);
+        Assert.assertEquals(petDTO.getName(), saved.getName());
+        Assert.assertEquals(petDTO.getType(), saved.getPetType());
+    }
+
+    @Test(enabled = false)
+    public void CanSetOwnerIdToNewPet(){
+        PetDTO petDTO = createPetDTO();
+        petDTO.setOwnerId(1);
+        PetDTO saved = petController.savePet(petDTO);
+        Assert.assertEquals(saved.getOwnerId(), petDTO.getOwnerId());
     }
 
     @Test
@@ -88,7 +129,7 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
         //check to make sure customer now also contains pet
         CustomerDTO retrievedCustomer = userController.getAllCustomers().get(0);
         Assert.assertTrue(retrievedCustomer.getPetIds() != null && retrievedCustomer.getPetIds().size() > 0);
-        Assert.assertEquals(java.util.Optional.ofNullable(retrievedCustomer.getPetIds().get(0)), retrievedPet.getId());
+        Assert.assertEquals(java.util.Optional.ofNullable(retrievedCustomer.getPetIds().get(0)), Optional.ofNullable(retrievedPet.getId()));
     }
 
     @Test
@@ -120,7 +161,7 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
 
         CustomerDTO owner = userController.getOwnerByPet(newPet.getId());
         Assert.assertEquals(owner.getId(), newCustomer.getId());
-        Assert.assertEquals(java.util.Optional.ofNullable(owner.getPetIds().get(0)), newPet.getId());
+        Assert.assertEquals(java.util.Optional.ofNullable(owner.getPetIds().get(0)), Optional.ofNullable(newPet.getId()));
     }
 
     @Test
