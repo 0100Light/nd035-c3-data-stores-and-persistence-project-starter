@@ -82,6 +82,9 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
     @Test
     public void canCreatePet(){
         PetDTO petDTO = createPetDTO();
+        CustomerDTO customerDTO = createCustomerDTO();
+        CustomerDTO savedCustomer = userService.saveCustomer(customerDTO);
+        petDTO.setOwnerId(savedCustomer.getId());
         PetDTO saved = petController.savePet(petDTO);
         Assert.assertEquals(saved.getName(), petDTO.getName());
         Assert.assertTrue(saved.getId() > 0);
@@ -90,6 +93,9 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
     @Test
     public void can_convert_petDTO_to_pet(){
         PetDTO petDTO = createPetDTO();
+        CustomerDTO customerDTO = createCustomerDTO();
+        CustomerDTO savedCustomer = userService.saveCustomer(customerDTO);
+        petDTO.setOwnerId(savedCustomer.getId());
         Pet p = petMapper.toPet(petDTO);
         Pet saved = petService.savePet(p);
 

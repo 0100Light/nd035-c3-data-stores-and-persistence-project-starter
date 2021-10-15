@@ -1,10 +1,8 @@
 package com.udacity.jdnd.course3.critter.schedule;
 
-import com.udacity.jdnd.course3.critter.user.Customer;
+import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.user.Employee;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
-import com.udacity.jdnd.course3.critter.pet.Pet;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -30,6 +28,7 @@ public class Schedule {
 
 
     /*      */
+
     public long getId() {
         return id;
     }

@@ -45,6 +45,7 @@ public abstract class ScheduleMapper {
 
 
     abstract List<Long> EmployeesToEmployeeIds(List<Employee> employees);
+
     protected Long EmployeeToEmployeeId(Employee employee){
         return employee.getId();
     }
