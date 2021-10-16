@@ -5,6 +5,7 @@ import com.udacity.jdnd.course3.critter.pet.PetRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -30,24 +31,28 @@ public class UserService {
         this.petRepository = petRepository;
     }
 
+    @Transactional
     public CustomerDTO saveCustomer(CustomerDTO dto){
         Customer c = userMapper.toCustomer(dto);
         Customer saved = customerRepository.save(c);
         return AppMapper.INSTANCE.toCustomerDTO(saved);
     }
 
+    @Transactional
     public List<CustomerDTO> getCustomers(){
         List<Customer> customers = customerRepository.findAll();
         return AppMapper.INSTANCE.toCustomerDTOList(customers);
     }
 
 
+    @Transactional
     public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) {
         Employee y = AppMapper.INSTANCE.toEmployee(employeeDTO);
         Employee saved = employeeRepository.save(y);
         return AppMapper.INSTANCE.toEmployeeDTO(saved);
     }
 
+    @Transactional
     public EmployeeDTO getEmployeeById(long employeeId) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
         if (optionalEmployee.isPresent()){
@@ -58,6 +63,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public CustomerDTO getCustomerByPet(long petId) {
         Optional<Pet> p = petRepository.findById(petId);
         if (p.isPresent()){
@@ -67,6 +73,7 @@ public class UserService {
         return new CustomerDTO();
     }
 
+    @Transactional
     public void setEmployeeAvailability(long employeeId, Set<DayOfWeek> daysAvailable) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
         if (optionalEmployee.isPresent()){
@@ -78,6 +85,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public Optional<Customer> getCustomerById(Long id){
         return customerRepository.findById(id);
     }
@@ -88,6 +96,7 @@ public class UserService {
 //        return userMapper.toEmployeeDtoList(ees);
 //    }
 
+    @Transactional
     public List<Employee> getAvailableEmployees(Set<EmployeeSkill> skills, DayOfWeek dayOfWeek) {
         List<Employee> employees = employeeRepository.findAllByDaysAvailableContaining(dayOfWeek);
         List<Employee> availableEmployees = new ArrayList<>();

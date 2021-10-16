@@ -1,10 +1,9 @@
 package com.udacity.jdnd.course3.critter.pet;
 
-import com.udacity.jdnd.course3.critter.user.AppMapper;
 import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.CustomerRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +22,7 @@ public class PetService {
         this.petMapper = petMapper;
     }
 
+    @Transactional
     public Pet savePet(Pet p) {
         Customer c = customerRepository.save(p.getCustomer());
         Pet saved = petRepository.save(p);
@@ -30,17 +30,20 @@ public class PetService {
         return saved;
     }
 
+    @Transactional
     public PetDTO getPetById(long petId) {
         Optional<Pet> p = petRepository.findById(petId);
         Pet res = p.orElse(new Pet());
         return petMapper.toPetDto(res);
     }
 
+    @Transactional
     public List<PetDTO> getAllPets() {
         List<Pet> pets = petRepository.findAll();
         return petMapper.toPetDTOList(pets);
     }
 
+    @Transactional
     public List<Pet> getPetsByOwner(long ownerId) {
         Optional<Customer> oc = customerRepository.findById(ownerId);
         Customer c=  oc.orElse(null);

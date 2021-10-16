@@ -23,6 +23,7 @@ public class ScheduleService {
         this.scheduleRepository = scheduleRepository;
     }
 
+    @Transactional
     public Schedule saveSchedule(Schedule s) {
         Schedule saved = scheduleRepository.save(s);
         return saved;
