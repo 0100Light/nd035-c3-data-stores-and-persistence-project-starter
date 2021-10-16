@@ -8,9 +8,13 @@ import com.udacity.jdnd.course3.critter.schedule.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.time.DayOfWeek;
@@ -29,7 +33,8 @@ import java.util.stream.IntStream;
  *
  * These tests should all pass once the project is complete.
  */
-@Transactional
+
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(classes = CritterApplication.class)
 public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
 
@@ -51,7 +56,7 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
     @Autowired
     private PetService petService;
 
-    @Test
+    @Test(priority = 2)
     public void testCreateCustomer(){
         CustomerDTO customerDTO = createCustomerDTO();
         CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
@@ -113,7 +118,7 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(saved.getOwnerId(), petDTO.getOwnerId());
     }
 
-    @Test
+    @Test(priority = 1)
     public void testAddPetsToCustomer() {
         CustomerDTO customerDTO = createCustomerDTO();
         CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
@@ -183,7 +188,7 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(availability, emp2.getDaysAvailable());
     }
 
-    @Test
+    @Test(priority = 2)
     public void testfindemployeesbyserviceandtime() {
         EmployeeDTO emp1 = createEmployeeDTO();
         EmployeeDTO emp2 = createEmployeeDTO();
@@ -220,7 +225,7 @@ public class CritterFunctionalTestNG extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(eIds2, eIds2expected);
     }
 
-    @Test
+    @Test(priority = 1)
     public void testSchedulePetsForServiceWithEmployee() {
         EmployeeDTO employeeTemp = createEmployeeDTO();
         employeeTemp.setDaysAvailable(Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY));
