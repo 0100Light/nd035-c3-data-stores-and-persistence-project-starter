@@ -90,12 +90,6 @@ public class UserService {
         return customerRepository.findById(id);
     }
 
-    // TODO: implement
-//    public List<EmployeeDTO> findEmployeeByRequest(EmployeeRequestDTO requestDTO){
-//        List<Employee> ees = employeeRepository.findAllBySkillsContainingAndDaysAvailableContaining(requestDTO.getSkills(), requestDTO.getDate().getDayOfWeek());
-//        return userMapper.toEmployeeDtoList(ees);
-//    }
-
     @Transactional
     public List<Employee> getAvailableEmployees(Set<EmployeeSkill> skills, DayOfWeek dayOfWeek) {
         List<Employee> employees = employeeRepository.findAllByDaysAvailableContaining(dayOfWeek);

@@ -42,21 +42,7 @@ public class ScheduleService {
 
     @Transactional
     public List<Schedule> getScheduleForEmployee(long employeeId) {
-/*
-        List<Schedule> scheds = scheduleRepository.findAll();
-        List<Schedule> res = new ArrayList<>();
-        for (Schedule s: scheds){
-            Boolean selected = false;
-            for (Employee y: s.getEmployees()){
-                if (y.getId() == employeeId) {selected = true; }
-            }
-            if (selected) { res.add(s); }
-        }
-
-        return res;
-*/
         return scheduleRepository.findAllByEmployeesId(employeeId);
-
     }
 
     // 遇到no session error 的時候常常可以用這個解決
@@ -97,19 +83,6 @@ public class ScheduleService {
 
     @Transactional
     public List<Schedule> getScheduleForCustomer(Long customerId) {
-/*
-        List<Schedule> schedules = scheduleRepository.findAll();
-        List<Schedule> filtered = new ArrayList<>();
-        for (Schedule s: schedules){
-            Boolean selected = false;
-            for (Pet p: s.getPets()){
-                if (p.getCustomer().getId() == customerId){
-                    selected = true;
-                }
-            }
-        }
-        return filtered;
-*/
         return scheduleRepository.findByPets_Customer_Id(customerId);
     }
 }

@@ -6,9 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-//    @Query("select s from Schedule s left join s.employees employees where employees.id like ?1")
-//    List<Schedule> findByEmployees_Id(long id);
-
     // TODO: try EntityGraph
 
     List<Schedule> findAllByEmployeesId(long employees_id);

@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -29,21 +30,20 @@ public abstract class UserMapper {
     abstract List<Employee> toEmployees(List<EmployeeDTO> employeeDTOList);
 
 
-//    @Named("petIdsToPets")
     protected List<Pet> petIdsToPets(List<Long> ids){
         if (ids == null) return null;
-        List<Pet> pets = null;
+        List<Pet> pets = new ArrayList<>();
         pets = petRepository.findAllById(ids);
         return pets;
     }
 
     @Named("petsToPetIds")
     protected List<Long> petsToPetIds(List<Pet> source){
-        List<Long> idList = null;
+        List<Long> idList = new ArrayList<>();
         for (Pet p : source) {
             idList.add(p.getId());
         }
 
         return idList;
-    };
+    }
 }
